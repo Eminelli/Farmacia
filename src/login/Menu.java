@@ -22,6 +22,7 @@ public class Menu extends javax.swing.JFrame {
     TelaVendas v = null;
     TelaCadastro c = null;
     Menu m = null;
+    
     public Menu() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -154,8 +155,9 @@ public class Menu extends javax.swing.JFrame {
         });
         PFornecedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        IconeFornecedor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         IconeFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/inventory.png"))); // NOI18N
-        PFornecedor.add(IconeFornecedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(46, 5, -1, 70));
+        PFornecedor.add(IconeFornecedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, 5, 160, 70));
 
         LblFornecedor.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         LblFornecedor.setForeground(new java.awt.Color(255, 255, 255));
@@ -245,7 +247,7 @@ public class Menu extends javax.swing.JFrame {
         f = new TelaFornecedor();
         }
         f.setVisible(true);
-        dispose();
+        dispose();       
     }//GEN-LAST:event_PFornecedorMouseClicked
 
     private void PFornecedorMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PFornecedorMousePressed

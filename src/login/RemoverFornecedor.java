@@ -153,9 +153,10 @@ public class RemoverFornecedor extends JDialog {
 
     private void OkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OkMouseClicked
        Fornecedor excluirf = new Fornecedor();
-       
+            
        excluirf.IdF = Integer.parseInt(IdFornecedor.getText());
        excluirf.excluif(); 
+             
        
        JOptionPane.showMessageDialog(null,"Cliente removido com Sucesso");
     }//GEN-LAST:event_OkMouseClicked

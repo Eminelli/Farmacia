@@ -84,7 +84,7 @@ public class TelaLogin extends javax.swing.JFrame {
         UsuarioTxt.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         UsuarioTxt.setForeground(new java.awt.Color(102, 102, 102));
         UsuarioTxt.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 204, 51)));
-        UsuarioTxt.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        UsuarioTxt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         UsuarioTxt.setDisabledTextColor(new java.awt.Color(255, 255, 255));
         UsuarioTxt.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -132,7 +132,7 @@ public class TelaLogin extends javax.swing.JFrame {
         Entrar.setForeground(new java.awt.Color(255, 255, 255));
         Entrar.setText("Login");
         Entrar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        Entrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Entrar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Entrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 EntrarMouseClicked(evt);
@@ -204,8 +204,9 @@ public class TelaLogin extends javax.swing.JFrame {
 
             }else{if(erro == null)
                 erro = new TelaDeErro();
+                erro.setVisible(true);
             }
-            erro.setVisible(true);
+            
     }//GEN-LAST:event_EntrarKeyPressed
     }
     private void EntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EntrarActionPerformed
@@ -227,9 +228,9 @@ public class TelaLogin extends javax.swing.JFrame {
             dispose();
 
         }else{if(erro == null)
-            erro = new TelaDeErro();           
-        }
-         erro.setVisible(true);    
+            erro = new TelaDeErro();
+            erro.setVisible(true);   
+        }   
     }//GEN-LAST:event_EntrarMouseClicked
 
     private void SenhaFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SenhaFieldKeyPressed
@@ -241,8 +242,9 @@ public class TelaLogin extends javax.swing.JFrame {
 
             }else{if(erro == null)
                 erro = new TelaDeErro();
+                erro.setVisible(true);
             }
-            erro.setVisible(true);
+            
         }
     }//GEN-LAST:event_SenhaFieldKeyPressed
 

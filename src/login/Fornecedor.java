@@ -25,7 +25,7 @@ public class Fornecedor {
                 "jdbc:mysql://localhost:3306/farmacia?useTimezone=true&serverTimezone=UTC","root","");  
 
             Statement stmt = con.createStatement();
-            stmt.execute("INSERT INTO fornecedor (nomef,cpf) VALUES ('"+NomeF+"','"+cpf+"'')");
+            stmt.execute("INSERT INTO fornecedor (nomef,cpf) VALUES ('"+NomeF+"','"+cpf+"')");
                     }catch(Exception e){
 
             System.out.println(e);

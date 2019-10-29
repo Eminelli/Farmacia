@@ -22,11 +22,6 @@ public class TelaVendas extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         
-        this.setLocationRelativeTo(null); /*Tela aparecer no meio do monitor*/
-        Adicionar.setFocusPainted(false);
-        Remover.setFocusPainted(false);
-        Finalizar.setFocusPainted(false);
-        
            ArrayList<ProdutosC> produtos = new ProdutosC().executaSelectProdutos("Select * from produtos");
            
            DefaultListModel<ProdutosC> model = new DefaultListModel<>();
@@ -54,7 +49,7 @@ public class TelaVendas extends javax.swing.JFrame {
         for(int c = 0; c<modelAtual.getSize(); c++){
             total = total+modelAtual.getElementAt(c).preco;
         }
-        Preco.setText("R$ "+total);
+        precoTotalLabel.setText("R$ "+total);
     }
 
     /**
@@ -70,12 +65,12 @@ public class TelaVendas extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         Clientes = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        ListaProdutos = new javax.swing.JList<>();
+        ListaSelecionado = new javax.swing.JList<>();
         Remover = new javax.swing.JButton();
-        Preco = new javax.swing.JLabel();
+        precoTotalLabel = new javax.swing.JLabel();
         Adicionar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        ListaSelecionado = new javax.swing.JList<>();
+        ListaProdutos = new javax.swing.JList<>();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -110,14 +105,14 @@ public class TelaVendas extends javax.swing.JFrame {
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-        ListaProdutos.setBackground(new java.awt.Color(233, 234, 239));
-        ListaProdutos.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        ListaProdutos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+        ListaSelecionado.setBackground(new java.awt.Color(233, 234, 239));
+        ListaSelecionado.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        ListaSelecionado.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                ListaProdutosValueChanged(evt);
+                ListaSelecionadoValueChanged(evt);
             }
         });
-        jScrollPane1.setViewportView(ListaProdutos);
+        jScrollPane1.setViewportView(ListaSelecionado);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 540, 150));
 
@@ -126,6 +121,11 @@ public class TelaVendas extends javax.swing.JFrame {
         Remover.setForeground(new java.awt.Color(255, 255, 255));
         Remover.setText("Remover");
         Remover.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        Remover.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                RemoverMouseClicked(evt);
+            }
+        });
         Remover.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RemoverActionPerformed(evt);
@@ -133,29 +133,39 @@ public class TelaVendas extends javax.swing.JFrame {
         });
         jPanel1.add(Remover, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 510, 90, 30));
 
-        Preco.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        Preco.setText("R$ 0,00");
-        jPanel1.add(Preco, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 510, -1, -1));
+        precoTotalLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        precoTotalLabel.setText("R$ 0,00");
+        jPanel1.add(precoTotalLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 510, -1, -1));
 
         Adicionar.setBackground(new java.awt.Color(168, 224, 99));
         Adicionar.setFont(new java.awt.Font("Leelawadee", 1, 11)); // NOI18N
         Adicionar.setForeground(new java.awt.Color(255, 255, 255));
         Adicionar.setText("Adicionar");
         Adicionar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        Adicionar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AdicionarMouseClicked(evt);
+            }
+        });
+        Adicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AdicionarActionPerformed(evt);
+            }
+        });
         jPanel1.add(Adicionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 510, 90, 30));
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-        ListaSelecionado.setBackground(new java.awt.Color(233, 234, 239));
-        ListaSelecionado.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        ListaSelecionado.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jScrollPane2.setViewportView(ListaSelecionado);
+        ListaProdutos.setBackground(new java.awt.Color(233, 234, 239));
+        ListaProdutos.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        ListaProdutos.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        jScrollPane2.setViewportView(ListaProdutos);
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 540, 150));
 
         jPanel2.setBackground(new java.awt.Color(52, 174, 95));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Dados de vendas");
@@ -251,23 +261,24 @@ public class TelaVendas extends javax.swing.JFrame {
 
     private void RemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoverActionPerformed
         ProdutosC prodSel = ListaSelecionado.getSelectedValue();
-
+        
         ListModel<ProdutosC> modelAtual = ListaSelecionado.getModel();
-
+        
         DefaultListModel<ProdutosC> model = new DefaultListModel<>();
         for(int c = 0; c<modelAtual.getSize(); c++){
             model.addElement(modelAtual.getElementAt(c));
         }
-
+        
         model.removeElement(prodSel);
         ListaSelecionado.setModel(model);
-
+        
         calculaTotal();
+                               
     }//GEN-LAST:event_RemoverActionPerformed
 
-    private void ListaProdutosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListaProdutosValueChanged
+    private void ListaSelecionadoValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListaSelecionadoValueChanged
 
-    }//GEN-LAST:event_ListaProdutosValueChanged
+    }//GEN-LAST:event_ListaSelecionadoValueChanged
 
     private void ClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClientesActionPerformed
         // TODO add your handling code here:
@@ -278,8 +289,37 @@ public class TelaVendas extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void FinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinalizarActionPerformed
-        // TODO add your handling code here:
+        
+        CadastroS c = new CadastroS();
+        c.nomec = (String) Clientes.getSelectedItem();
+        
+        
+        
     }//GEN-LAST:event_FinalizarActionPerformed
+
+    private void AdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdicionarActionPerformed
+    ProdutosC prodSel = ListaProdutos.getSelectedValue();
+        
+        ListModel<ProdutosC> modelAtual = ListaSelecionado.getModel();
+        
+        DefaultListModel<ProdutosC> model = new DefaultListModel<>();
+        for(int c = 0; c<modelAtual.getSize(); c++){
+            model.addElement(modelAtual.getElementAt(c));
+        }
+        
+        model.addElement(prodSel);
+        ListaSelecionado.setModel(model);
+        
+        calculaTotal();       
+    }//GEN-LAST:event_AdicionarActionPerformed
+
+    private void AdicionarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AdicionarMouseClicked
+                       
+    }//GEN-LAST:event_AdicionarMouseClicked
+
+    private void RemoverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RemoverMouseClicked
+      
+    }//GEN-LAST:event_RemoverMouseClicked
 
     /**
      * @param args the command line arguments
@@ -323,7 +363,6 @@ public class TelaVendas extends javax.swing.JFrame {
     private javax.swing.JButton Finalizar;
     private javax.swing.JList<ProdutosC> ListaProdutos;
     private javax.swing.JList<ProdutosC> ListaSelecionado;
-    private javax.swing.JLabel Preco;
     private javax.swing.JButton Remover;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -334,5 +373,6 @@ public class TelaVendas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel precoTotalLabel;
     // End of variables declaration//GEN-END:variables
 }
