@@ -14,7 +14,8 @@ import javax.swing.JOptionPane;
  * @author 30136
  */
 public class TelaCadastro extends javax.swing.JFrame {
-
+    CadastroSucesso cs = null;
+    RemoverCliente rc = null;
     /**
      * Creates new form Tela
      */
@@ -63,7 +64,6 @@ public class TelaCadastro extends javax.swing.JFrame {
         jTextField4.setText("jTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(999, 999));
         setMinimumSize(new java.awt.Dimension(630, 540));
         setUndecorated(true);
         setSize(new java.awt.Dimension(630, 540));
@@ -107,22 +107,12 @@ public class TelaCadastro extends javax.swing.JFrame {
         M.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         M.setForeground(new java.awt.Color(153, 153, 153));
         M.setText(" Masculino");
-        M.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MActionPerformed(evt);
-            }
-        });
         jPanel2.add(M, new org.netbeans.lib.awtextra.AbsoluteConstraints(83, 333, -1, 20));
 
         dia.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         dia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dia", "31", "30", "29", "28", "27", "26", "25", "24", "23", "22", "21", "20", "19", "18", "17", "16", "15", "14", "13", "12", "11", "10", "09", "08", "07", "06", "05", "04", "03", "02", "01" }));
         dia.setBorder(null);
-        dia.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                diaKeyPressed(evt);
-            }
-        });
-        jPanel2.add(dia, new org.netbeans.lib.awtextra.AbsoluteConstraints(519, 279, 56, 19));
+        jPanel2.add(dia, new org.netbeans.lib.awtextra.AbsoluteConstraints(399, 279, 56, 19));
 
         mes.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         mes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mês", "12", "11", "10", "09", "08", "07", "06", "05", "04", "03", "02", "01" }));
@@ -132,7 +122,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         ano.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         ano.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ano", "2019", "2017", "2018", "2016", "2015", "2014", "2013", "2012", "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2003", "2004", "2002", "2001", "2000", "1999", "1998", "1997", "1996", "1995", "1994", "1993", "1992", "1991", "1990", "1989", "1988", "1987", "1986", "1985", "1984", "1983", "1982", "1981", "1980", "1979", "1978", "1977", "1976", "1975", "1974", "1973", "1972", "1971", "1970", "1969", "1968", "1967", "1966", "1965", "1964", "1963", "1962", "1961", "1960", "1959", "1958", "1957", "1956", "1955", "1954", "1953", "1952", "1951", "1950", "1949", "1948", "1947", "1946", "1945", "1944", "1943", "1942", "1941", "1940", "1939", "1938", "1937", "1936", "1935", "1934", "1933", "1932", "1931", "1930" }));
         ano.setBorder(null);
-        jPanel2.add(ano, new org.netbeans.lib.awtextra.AbsoluteConstraints(399, 279, 56, 19));
+        jPanel2.add(ano, new org.netbeans.lib.awtextra.AbsoluteConstraints(519, 279, 56, 19));
 
         rg.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rg.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 204, 51)));
@@ -302,6 +292,11 @@ public class TelaCadastro extends javax.swing.JFrame {
     }//GEN-LAST:event_ConfirmarMouseExited
 
     private void ConfirmarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConfirmarMouseClicked
+    if (nome.getText().equals("") || cpf.getText().equals("") || rg.getText().equals("") ||
+        ano.getSelectedItem().equals("Ano") || mes.getSelectedItem().equals("Mês") || dia.getSelectedItem().equals("Dia") || !M.isSelected() && !F.isSelected()){
+        JOptionPane.showMessageDialog(null,"Um campo ou mais está vazio!");
+                
+    }else{
         CadastroS Cadastro = new CadastroS();
         Cadastro.nomec = nome.getText();
         Cadastro.rg = rg.getText();
@@ -320,43 +315,19 @@ public class TelaCadastro extends javax.swing.JFrame {
         Cadastro.email = email.getText();     
        
         Cadastro.gravac();   
-        
-        CadastroSucesso cs = new CadastroSucesso();
+        if (cs == null){
+        cs = new CadastroSucesso();
+        }
         cs.setVisible(true);
-    }//GEN-LAST:event_ConfirmarMouseClicked
-
-    private void diaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_diaKeyPressed
-              if(evt.getKeyCode() == KeyEvent.VK_ENTER){  
-
-        CadastroS Cadastro = new CadastroS();
-        Cadastro.nomec = nome.getText();
-        Cadastro.rg = rg.getText();
-        Cadastro.cpf = cpf.getText();
-        Cadastro.ano = ano.getSelectedItem().toString();
-        Cadastro.mes = mes.getSelectedItem().toString();
-        Cadastro.dia = dia.getSelectedItem().toString();
-        String dataSQL = Cadastro.ano+"-"+Cadastro.mes+"-"+Cadastro.dia;
-        Cadastro.datac = dataSQL;
-        if (M.isSelected()) {
-            Cadastro.sexo = "M";
-        }
-        if (F.isSelected()) {
-            Cadastro.sexo = "F";
-        }
-        Cadastro.email = email.getText();     
-       
-        Cadastro.gravac();   
-        
-      JOptionPane.showMessageDialog(null,("Cadastro feito com sucesso"));
+    }
     
-      }
-    }//GEN-LAST:event_diaKeyPressed
+    }//GEN-LAST:event_ConfirmarMouseClicked
 
     private void cpfKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cpfKeyTyped
         int maxn=13;
         if (cpf.getText().length()>maxn) {
         evt.consume();
-        JOptionPane.showMessageDialog(rootPane,"Utilize apenas os numero e caracteres presentes em seu CPF");
+        JOptionPane.showMessageDialog(rootPane,"Utilize apenas números e caracteres presentes em seu CPF!");
         }
     }//GEN-LAST:event_cpfKeyTyped
 
@@ -366,13 +337,15 @@ public class TelaCadastro extends javax.swing.JFrame {
 
             evt.consume();
 
-            JOptionPane.showMessageDialog(rootPane,"Utilize apenas o numero e caracteres presentes no seu RG");
+            JOptionPane.showMessageDialog(rootPane,"Utilize apenas números e caracteres presentes no seu RG!");
 }  
     }//GEN-LAST:event_rgKeyTyped
 
     private void RemoverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RemoverMouseClicked
-        RemoverCliente remove = new RemoverCliente();       
-        remove.setVisible(true);
+        if(rc == null){
+        rc = new RemoverCliente();
+        }
+        rc.setVisible(true);
     }//GEN-LAST:event_RemoverMouseClicked
 
     private void RemoverMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RemoverMouseEntered
@@ -382,10 +355,6 @@ public class TelaCadastro extends javax.swing.JFrame {
     private void RemoverMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RemoverMouseExited
         Remover.setBackground(new Color(255,51,51));
     }//GEN-LAST:event_RemoverMouseExited
-
-    private void MActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MActionPerformed
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         Menu m = new Menu();

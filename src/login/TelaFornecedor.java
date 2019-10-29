@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author 30136
  */
 public class TelaFornecedor extends javax.swing.JFrame {
-
+    RemoverFornecedor rf = null;
     /**
      * Creates new form Tela
      */
@@ -62,8 +62,10 @@ public class TelaFornecedor extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setIcon(new javax.swing.ImageIcon("Z:\\Farmácia2\\FARMACIA\\src\\img\\factory.png")); // NOI18N
         jLabel2.setText("  Cadastro de Fornecedores");
 
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/close (1).png"))); // NOI18N
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -76,9 +78,10 @@ public class TelaFornecedor extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 597, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,8 +193,10 @@ public class TelaFornecedor extends javax.swing.JFrame {
     }//GEN-LAST:event_RemoverMouseEntered
 
     private void RemoverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RemoverMouseClicked
-        RemoverFornecedor remove = new RemoverFornecedor();
-        remove.setVisible(true);
+        if(rf == null){
+        rf = new RemoverFornecedor();
+        }
+        rf.setVisible(true);
     }//GEN-LAST:event_RemoverMouseClicked
 
     private void ConfirmarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConfirmarMouseExited
@@ -203,6 +208,10 @@ public class TelaFornecedor extends javax.swing.JFrame {
     }//GEN-LAST:event_ConfirmarMouseEntered
 
     private void ConfirmarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConfirmarMouseClicked
+        if (nome.getText().equals("") || cpf.getText().equals("") ){
+        JOptionPane.showMessageDialog(null,"Um campo ou mais está vazio!");
+        
+        }else{
         Fornecedor Fornece = new Fornecedor();
         Fornece.NomeF = nome.getText();
         Fornece.cpf = cpf.getText();
@@ -212,13 +221,14 @@ public class TelaFornecedor extends javax.swing.JFrame {
 
         CadastroSucesso cs = new CadastroSucesso();
         cs.setVisible(true);
+        }
     }//GEN-LAST:event_ConfirmarMouseClicked
 
     private void cpfKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cpfKeyTyped
         int maxn=13;
         if (cpf.getText().length()>maxn) {
             evt.consume();
-            JOptionPane.showMessageDialog(rootPane,"Utilize apenas os numero e caracteres presentes em seu CPF");
+            JOptionPane.showMessageDialog(rootPane,"Utilize apenas números e caracteres presentes no CPF do fornecedor!");
         }
     }//GEN-LAST:event_cpfKeyTyped
 

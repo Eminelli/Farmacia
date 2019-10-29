@@ -22,6 +22,7 @@ public class Menu extends javax.swing.JFrame {
     TelaVendas v = null;
     TelaCadastro c = null;
     Menu m = null;
+    RealmenteSair rs = null;
     
     public Menu() {
         initComponents();
@@ -258,8 +259,10 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_PFornecedorMousePressed
 
     private void SairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SairMouseClicked
-        RealmenteSair rm = new RealmenteSair();
-        rm.setVisible(true);
+        if (rs == null){
+        rs = new RealmenteSair();
+        }
+        rs.setVisible(true);
     }//GEN-LAST:event_SairMouseClicked
     void setColor(JPanel panel){
 	panel.setBackground(new Color(76,41,211));

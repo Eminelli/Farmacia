@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
  */
 public class TelaProduto extends javax.swing.JFrame {
     CadastroSucesso cs = null;
+    RemoverProduto rp = null;
     /**
      * Creates new form Tela
      */
@@ -70,6 +71,7 @@ public class TelaProduto extends javax.swing.JFrame {
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/package.png"))); // NOI18N
         jLabel4.setText(" Cadastro de produtos");
 
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/close (1).png"))); // NOI18N
         jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -83,15 +85,16 @@ public class TelaProduto extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -126,17 +129,12 @@ public class TelaProduto extends javax.swing.JFrame {
         dia.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         dia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dia", "31", "30", "29", "28", "27", "26", "25", "24", "23", "22", "21", "20", "19", "18", "17", "16", "15", "14", "13", "12", "11", "10", "09", "08", "07", "06", "05", "04", "03", "02", "01" }));
         dia.setBorder(null);
-        dia.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                diaKeyPressed(evt);
-            }
-        });
-        jPanel2.add(dia, new org.netbeans.lib.awtextra.AbsoluteConstraints(396, 197, 56, 19));
+        jPanel2.add(dia, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 197, 56, 19));
 
         mes.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         mes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mês", "12", "11", "10", "09", "08", "07", "06", "05", "04", "03", "02", "01" }));
         mes.setBorder(null);
-        jPanel2.add(mes, new org.netbeans.lib.awtextra.AbsoluteConstraints(458, 197, 56, 19));
+        jPanel2.add(mes, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 197, 56, 19));
 
         ano.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         ano.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ano", "2028", "2027", "2026", "2025", "2024", "2023", "2022", "2021", "2020" }));
@@ -248,8 +246,10 @@ public class TelaProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_RemoverMouseEntered
 
     private void RemoverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RemoverMouseClicked
-        RemoverProduto remover = new RemoverProduto();
-        remover.setVisible(true);
+        if(rp == null){
+        rp = new RemoverProduto();
+        }
+        rp.setVisible(true);
     }//GEN-LAST:event_RemoverMouseClicked
 
     private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
@@ -267,6 +267,11 @@ public class TelaProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_ConfirmarMouseEntered
 
     private void ConfirmarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConfirmarMouseClicked
+        if (produto.getText().equals("") || quantidade.getText().equals("") || preco.getText().equals("") ||
+        ano.getSelectedItem().equals("Ano") || mes.getSelectedItem().equals("Mês") || dia.getSelectedItem().equals("Dia") || descricao.getText().equals("")){
+        JOptionPane.showMessageDialog(null,"Um campo ou mais está vazio!");
+        
+        }else{
         ProdutosC Produtos = new ProdutosC();
         Produtos.nomep = produto.getText();
         Produtos.quantidade = Integer.parseInt(quantidade.getText().toString());
@@ -277,8 +282,13 @@ public class TelaProduto extends javax.swing.JFrame {
         String dataSQL = Produtos.ano+"-"+Produtos.mes+"-"+Produtos.dia;
         Produtos.validade = dataSQL;
         Produtos.descricao = descricao.getText();
-        Produtos.gravap();   
+        Produtos.gravap(); 
         
+        if (cs == null){
+        cs = new CadastroSucesso();
+        }
+        cs.setVisible(true);
+        }
     }//GEN-LAST:event_ConfirmarMouseClicked
 
     private void descricaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_descricaoMouseClicked
@@ -296,22 +306,6 @@ public class TelaProduto extends javax.swing.JFrame {
     private void precoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_precoMouseClicked
         
     }//GEN-LAST:event_precoMouseClicked
-
-    private void diaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_diaKeyPressed
-        ProdutosC Produtos = new ProdutosC();
-        Produtos.nomep = produto.getText();
-        Produtos.quantidade = Integer.parseInt(quantidade.getText().toString());
-        Produtos.preco = Integer.parseInt(preco.getText());;
-        Produtos.ano = ano.getSelectedItem().toString();
-        Produtos.mes = mes.getSelectedItem().toString();
-        Produtos.dia = dia.getSelectedItem().toString();
-        String dataSQL = Produtos.ano+"-"+Produtos.mes+"-"+Produtos.dia;
-        Produtos.validade = dataSQL;
-        Produtos.descricao = descricao.getText();
-        Produtos.gravap();   
-        
-      JOptionPane.showMessageDialog(null,("Cadastro de Produto feito com sucesso"));  
-    }//GEN-LAST:event_diaKeyPressed
 
     private void quantidadeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quantidadeKeyTyped
            
