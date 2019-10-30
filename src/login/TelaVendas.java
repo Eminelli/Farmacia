@@ -5,8 +5,13 @@
  */
 package login;
 
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 
 /**
@@ -20,6 +25,10 @@ public class TelaVendas extends javax.swing.JFrame {
      */
     public TelaVendas() {
         initComponents();
+        precoTotal.setEditable(false);
+        data.setEditable(false);
+        
+        data.setText(getDate());
         this.setLocationRelativeTo(null);
         
            ArrayList<ProdutosC> produtos = new ProdutosC().executaSelectProdutos("Select * from produtos");
@@ -42,14 +51,24 @@ public class TelaVendas extends javax.swing.JFrame {
         
         }
     
-    private void calculaTotal(){
-        double total = 0;
-        
+    
+    private String getDate() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
+    
+    
+    private int contaQtd(ProdutosC p){
+        int qtd = 0;
         ListModel<ProdutosC> modelAtual = ListaSelecionado.getModel();
-        for(int c = 0; c<modelAtual.getSize(); c++){
-            total = total+modelAtual.getElementAt(c).preco;
+        for(int c = 0; c<modelAtual.getSize(); c++) {
+            if(modelAtual.getElementAt(c).equals(p)){
+                qtd++;
+            }
         }
-        precoTotalLabel.setText("R$ "+total);
+        
+        return qtd;
     }
 
     /**
@@ -67,7 +86,6 @@ public class TelaVendas extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         ListaSelecionado = new javax.swing.JList<>();
         Remover = new javax.swing.JButton();
-        precoTotalLabel = new javax.swing.JLabel();
         Adicionar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         ListaProdutos = new javax.swing.JList<>();
@@ -77,6 +95,8 @@ public class TelaVendas extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         Finalizar = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
+        data = new javax.swing.JTextField();
+        precoTotal = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -132,10 +152,6 @@ public class TelaVendas extends javax.swing.JFrame {
             }
         });
         jPanel1.add(Remover, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 510, 90, 30));
-
-        precoTotalLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        precoTotalLabel.setText("R$ 0,00");
-        jPanel1.add(precoTotalLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 510, -1, -1));
 
         Adicionar.setBackground(new java.awt.Color(168, 224, 99));
         Adicionar.setFont(new java.awt.Font("Leelawadee", 1, 11)); // NOI18N
@@ -237,6 +253,8 @@ public class TelaVendas extends javax.swing.JFrame {
         );
 
         jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 500, 540, 2));
+        jPanel1.add(data, new org.netbeans.lib.awtextra.AbsoluteConstraints(386, 60, 70, -1));
+        jPanel1.add(precoTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(336, 510, 50, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -259,16 +277,16 @@ public class TelaVendas extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void RemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoverActionPerformed
-        ProdutosC prodSel = ListaSelecionado.getSelectedValue();
+        ProdutosC p = ListaSelecionado.getSelectedValue();   
         
         ListModel<ProdutosC> modelAtual = ListaSelecionado.getModel();
-        
         DefaultListModel<ProdutosC> model = new DefaultListModel<>();
-        for(int c = 0; c<modelAtual.getSize(); c++){
+        
+        for(int c = 0; c<modelAtual.getSize(); c++) {
             model.addElement(modelAtual.getElementAt(c));
         }
         
-        model.removeElement(prodSel);
+        model.removeElement(p);
         ListaSelecionado.setModel(model);
         
         calculaTotal();
@@ -289,27 +307,30 @@ public class TelaVendas extends javax.swing.JFrame {
 
     private void FinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinalizarActionPerformed
         
-        CadastroS c = new CadastroS();
-        c.nomec = (String) Clientes.getSelectedItem();
-        
+       cadastraVenda();
+       JOptionPane.showMessageDialog(null,"Cadastrado com sucesso!");
         
         
     }//GEN-LAST:event_FinalizarActionPerformed
 
     private void AdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdicionarActionPerformed
-    ProdutosC prodSel = ListaProdutos.getSelectedValue();
-        
+    ProdutosC p = ListaProdutos.getSelectedValue();
         ListModel<ProdutosC> modelAtual = ListaSelecionado.getModel();
         
-        DefaultListModel<ProdutosC> model = new DefaultListModel<>();
-        for(int c = 0; c<modelAtual.getSize(); c++){
-            model.addElement(modelAtual.getElementAt(c));
+        if(p.quantidade-contaQtd(p) <= 0){
+            JOptionPane.showMessageDialog(null, "Produto sem estoque");
+        }else{
+            DefaultListModel<ProdutosC> model = new DefaultListModel<>();
+            for(int c = 0; c<modelAtual.getSize(); c++) {
+                model.addElement(modelAtual.getElementAt(c));
+            }
+
+            model.addElement(p);
+            ListaSelecionado.setModel(model);
+
+            calculaTotal();
         }
         
-        model.addElement(prodSel);
-        ListaSelecionado.setModel(model);
-        
-        calculaTotal();       
     }//GEN-LAST:event_AdicionarActionPerformed
 
     private void AdicionarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AdicionarMouseClicked
@@ -320,6 +341,33 @@ public class TelaVendas extends javax.swing.JFrame {
       
     }//GEN-LAST:event_RemoverMouseClicked
 
+    private void calculaTotal() {
+        int total = 0;
+        
+        // Converção para duas casas decimais após a virgula
+        DecimalFormat deci = new DecimalFormat("####.##");
+        
+        ListModel<ProdutosC> modelAtual = ListaSelecionado.getModel();
+        for(int c = 0; c<modelAtual.getSize(); c++) {
+            total = total+modelAtual.getElementAt(c).preco;
+        }
+        precoTotal.setText(deci.format(total).replace(',', '.'));
+    }
+    public void cadastraVenda(){
+        VendaClasse v = new VendaClasse();
+        v.cliente = Clientes.getSelectedItem().toString();
+        v.data = data.getText();
+        v.total = Integer.parseInt(precoTotal.getText());
+        
+        ListModel<ProdutosC> modelAtual = ListaSelecionado.getModel();
+        v.produtos = new ArrayList<>();
+        for(int c = 0; c<modelAtual.getSize(); c++) {
+            v.produtos.add(modelAtual.getElementAt(c));
+        }
+        
+        v.gravaVenda();
+    }
+   
     /**
      * @param args the command line arguments
      */
@@ -363,6 +411,7 @@ public class TelaVendas extends javax.swing.JFrame {
     private javax.swing.JList<ProdutosC> ListaProdutos;
     private javax.swing.JList<ProdutosC> ListaSelecionado;
     private javax.swing.JButton Remover;
+    private javax.swing.JTextField data;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -372,6 +421,6 @@ public class TelaVendas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel precoTotalLabel;
+    private javax.swing.JTextField precoTotal;
     // End of variables declaration//GEN-END:variables
 }

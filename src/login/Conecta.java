@@ -26,7 +26,7 @@ public class Conecta {
        
   public void executaComando (String comando){
         try{
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             
             Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/farmacia?useTimezone=true&serverTimezone=UTC","root","");
             
@@ -87,12 +87,55 @@ public class Conecta {
             System.out.println(e);
        
             
-        }
+        } 
     }
+        
+        public ArrayList<VendaClasse> executaSelectVenda(String comando){
+            ArrayList<VendaClasse> vendas = new ArrayList<>();
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection(  
+                "jdbc:mysql://localhost:3306/farmacia?useTimezone=true&serverTimezone=UTC",
+                    "root","");
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(comando);
+            
+            while(rs.next()){
+                VendaClasse v = new VendaClasse();
+                v.data = rs.getString("data");
+                v.total = Integer.parseInt(rs.getString("total"));
+                v.id = Integer.parseInt(rs.getString("id"));
+                vendas.add(v);
+            }
+            con.close();  
+        }
+        catch(Exception e){
+            System.out.println(e);  
+        }
+        return vendas;
+    } 
+        
+        public int buscaIdVendaCadastrada(){
+            int id = 0;
+            try{
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                Connection con = DriverManager.getConnection(  
+                    "jdbc:mysql://localhost:3306/farmacia?useTimezone=true&serverTimezone=UTC",
+                        "root","");
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT MAX(cod_venda) as id FROM venda");
 
-    
+                while(rs.next()){
+                    id = Integer.parseInt(rs.getString("id"));
+                }
+                con.close();  
+            }
+            catch(Exception e){
+                System.out.println(e);  
+            }
+            return id;
+    } 
 }
-
 
 
    
